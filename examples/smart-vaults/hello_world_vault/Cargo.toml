@@ -1,0 +1,12 @@
+[package]
+name = "hello_world_vault"
+version = "1.0.0"
+edition = "2024"
+description = "A Smart Vault that simply emits 'Hello deposit' on deposit and 'Hello withdraw' on withdrawal."
+license = "ISC"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+xrpl-wasm-stdlib = { path = "../../../xrpl-wasm-stdlib" }

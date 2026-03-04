@@ -83,7 +83,7 @@ async function main() {
     const wasmSource = args[1]
     const finish = getFinishFunctionFromFile(wasmSource)
 
-    const { deploy } = require("./deployWasmCode.js")
+    const { deploy, deployVault } = require("./deployWasmCode.js")
 
     console.log(`Running test in directory: ${targetDir}`)
     const runTestPath = path.resolve(targetDir, "runTest.js")
@@ -98,6 +98,7 @@ async function main() {
       destWallet,
       fundWallet,
       deploy,
+      deployVault,
       finish,
     }
 

@@ -18,6 +18,41 @@ async function submit(tx, wallet, debug = false) {
   return txResult
 }
 
+async function deployVault(sourceWallet, destWallet, code, data = null) {
+  await client.connect()
+  console.log("connected")
+
+  const response1 = await submit(
+    {
+      TransactionType: "VaultCreate",
+      Account: sourceWallet.address,
+      Asset: { currency: "XRP" },
+      Data: data,
+      WithdrawalPolicy: 2, // code gated
+      VaultCode: code,
+    },
+    sourceWallet,
+  )
+
+  if (response1.result.meta.TransactionResult !== "tesSUCCESS") process.exit(1)
+  const sequence = response1.result.tx_json.Sequence
+
+  // Extract vault keylet from the created vault node in metadata
+  let vaultKeylet = null
+  if (response1.result.meta && response1.result.meta.AffectedNodes) {
+    for (const node of response1.result.meta.AffectedNodes) {
+      if (node.CreatedNode && node.CreatedNode.LedgerEntryType === "Vault") {
+        vaultKeylet = node.CreatedNode.LedgerIndex
+        break
+      }
+    }
+  }
+
+  await client.disconnect()
+
+  return { sequence, vaultKeylet }
+}
+
 async function deploy(sourceWallet, destWallet, finish, data = null) {
   await client.connect()
   console.log("connected")
@@ -61,4 +96,4 @@ async function deploy(sourceWallet, destWallet, finish, data = null) {
   return { sequence, escrowKeylet }
 }
 
-module.exports = { deploy }
+module.exports = { deploy, deployVault }
