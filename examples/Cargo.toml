@@ -12,6 +12,7 @@ members = [
 
     "smart-vaults/hello_world_vault",
     "smart-vaults/whitelist_vault",
+    "smart-vaults/storage_vault",
 ]
 
 [profile.release]

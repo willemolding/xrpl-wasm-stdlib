@@ -260,6 +260,51 @@ pub trait CurrentVaultFields: CurrentLedgerObjectCommonFields {
     fn get_assets_maximum(&self) -> Result<u32> {
         current_ledger_object::get_field(sfield::AssetsMaximum)
     }
+
+    /// Retrieves the contract `data` from the current escrow object.
+    ///
+    /// This function fetches the `data` field from the current ledger object and returns it as a
+    /// ContractData structure. The data is read into a fixed-size buffer of XRPL_CONTRACT_DATA_SIZE.
+    ///
+    /// # Returns
+    ///
+    /// Returns a `Result<ContractData>` where:
+    /// * `Ok(ContractData)` - Contains the retrieved data and its actual length
+    /// * `Err(Error)` - If the retrieval operation failed
+    fn get_data(&self) -> Result<ContractData> {
+        let mut data: [u8; XRPL_CONTRACT_DATA_SIZE] = [0; XRPL_CONTRACT_DATA_SIZE];
+
+        let result_code = unsafe {
+            get_current_ledger_obj_field(sfield::Data.into(), data.as_mut_ptr(), data.len())
+        };
+
+        match result_code {
+            code if code >= 0 => Ok(ContractData {
+                data,
+                len: code as usize,
+            }),
+            code => Err(Error::from_code(code)),
+        }
+    }
+
+    /// Updates the contract data in the current vault object.
+    ///
+    /// # Arguments
+    ///
+    /// * `data` - The contract data to update
+    ///
+    /// # Returns
+    ///
+    /// Returns a `Result<()>` where:
+    /// * `Ok(())` - The data was successfully updated
+    /// * `Err(Error)` - If the update operation failed
+    fn update_current_vault_data(data: ContractData) -> Result<()> {
+        // TODO: Make sure rippled always deletes any existing data bytes in rippled, and sets the new
+        // length to be `data.len` (e.g., if the developer writes 2 bytes, then that's the new
+        // length and any old bytes are lost).
+        let result_code = unsafe { update_data(data.data.as_ptr(), data.len) };
+        match_result_code(result_code, || ())
+    }
 }
 
 /// Trait providing access to fields specific to Escrow objects in any ledger.

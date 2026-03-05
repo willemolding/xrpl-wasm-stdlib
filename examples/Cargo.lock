@@ -164,6 +164,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "storage_vault"
+version = "1.0.0"
+dependencies = [
+ "xrpl-wasm-stdlib",
+]
+
+[[package]]
 name = "syn"
 version = "2.0.106"
 source = "registry+https://github.com/rust-lang/crates.io-index"

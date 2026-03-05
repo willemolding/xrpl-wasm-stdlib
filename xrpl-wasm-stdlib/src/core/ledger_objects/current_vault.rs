@@ -9,6 +9,6 @@ impl CurrentLedgerObjectCommonFields for CurrentVault {}
 impl CurrentVaultFields for CurrentVault {}
 
 #[inline]
-pub fn get_current_escrow() -> CurrentVault {
+pub fn get_current_vault() -> CurrentVault {
     CurrentVault
 }
