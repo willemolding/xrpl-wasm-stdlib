@@ -1,6 +1,7 @@
 pub mod account_root;
 pub mod array_object;
 pub mod current_escrow;
+pub mod current_vault;
 pub mod escrow;
 pub mod traits;
 

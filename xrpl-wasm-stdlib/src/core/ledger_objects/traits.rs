@@ -3,6 +3,7 @@ use crate::core::types::account_id::AccountID;
 use crate::core::types::amount::Amount;
 use crate::core::types::blob::{CONDITION_BLOB_SIZE, ConditionBlob, StandardBlob};
 use crate::core::types::contract_data::{ContractData, XRPL_CONTRACT_DATA_SIZE};
+use crate::core::types::issue::Issue;
 use crate::core::types::uint::{Hash128, Hash256};
 
 /// This module provides traits for interacting with XRP Ledger objects.
@@ -240,6 +241,24 @@ pub trait CurrentEscrowFields: CurrentLedgerObjectCommonFields {
         // length and any old bytes are lost).
         let result_code = unsafe { update_data(data.data.as_ptr(), data.len) };
         match_result_code(result_code, || ())
+    }
+}
+
+pub trait CurrentVaultFields: CurrentLedgerObjectCommonFields {
+    fn get_assert(&self) -> Result<Issue> {
+        current_ledger_object::get_field(sfield::Asset)
+    }
+
+    fn get_assets_total(&self) -> Result<u32> {
+        current_ledger_object::get_field(sfield::AssetsTotal)
+    }
+
+    fn get_assets_available(&self) -> Result<u32> {
+        current_ledger_object::get_field(sfield::AssetsAvailable)
+    }
+
+    fn get_assets_maximum(&self) -> Result<u32> {
+        current_ledger_object::get_field(sfield::AssetsMaximum)
     }
 }
 
