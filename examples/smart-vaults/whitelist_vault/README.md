@@ -1,6 +1,6 @@
-# Hello World Vault
+# Whitelist Vault
 
-A Smart Vault that simply emits 'Hello deposit' on deposit and 'Hello withdraw' on withdrawal.
+A Smart Vault that restricts who can deposit and withdraw via a hard-coded whitelist
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ cargo build --target wasm32v1-none --release
 Artifact:
 
 ```
-./target/wasm32v1-none/release/hello_world_vault.wasm
+./target/wasm32v1-none/release/whitelist_vault.wasm
 ```
 
 ### 3. Deploy and test on Devnet
@@ -35,7 +35,7 @@ Use the test script to deploy an escrow and test the FinishFunction.
 
 ```shell
 cd ../../..
-./scripts/run-tests.sh examples/smart-vaults/hello_world_vault
+./scripts/run-tests.sh examples/smart-vaults/whitelist_vault
 ```
 
 This will:
@@ -47,3 +47,4 @@ This will:
 - Attempt to withdraw from the vault
 
 Expected result: `tesSUCCESS`
+

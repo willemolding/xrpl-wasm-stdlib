@@ -1,0 +1,12 @@
+[package]
+name = "whitelist_vault"
+version = "1.0.0"
+edition = "2024"
+    description = "A Smart Vault that restricts who can deposit and withdraw via a hard-coded whitelist."
+    license = "ISC"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+xrpl-wasm-stdlib = { path = "../../../xrpl-wasm-stdlib" }

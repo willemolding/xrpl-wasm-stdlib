@@ -18,7 +18,7 @@ async function submit(tx, wallet, debug = false) {
   return txResult
 }
 
-async function deployVault(sourceWallet, destWallet, code, data = null) {
+async function deployVault(sourceWallet, code, data = null) {
   await client.connect()
   console.log("connected")
 

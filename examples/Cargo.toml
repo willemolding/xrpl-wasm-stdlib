@@ -11,6 +11,7 @@ members = [
     "smart-escrows/oracle",
 
     "smart-vaults/hello_world_vault",
+    "smart-vaults/whitelist_vault",
 ]
 
 [profile.release]

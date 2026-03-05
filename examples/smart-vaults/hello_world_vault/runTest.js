@@ -1,9 +1,9 @@
 async function test(testContext) {
-  const { deployVault, finish, submit, sourceWallet, destWallet } = testContext
+  const { deployVault, finish: code, submit, sourceWallet, destWallet } = testContext
 
-  const deployResult = await deployVault(sourceWallet, destWallet, finish)
+  const deployResult = await deployVault(sourceWallet, code)
 
-  // deposit into escrow
+  // deposit into vault
   const depositTx = {
     TransactionType: "VaultDeposit",
     Account: sourceWallet.address,
@@ -11,7 +11,7 @@ async function test(testContext) {
     Amount : "123",
     ComputationAllowance: 1000000,
   }
-  const depositResponse = await submit(depositTx, sourceWallet, true)
+  const depositResponse = await submit(depositTx, sourceWallet)
 
   if (depositResponse.result.meta.TransactionResult !== "tesSUCCESS") {
     console.error(
@@ -21,7 +21,7 @@ async function test(testContext) {
     process.exit(1)
   }
 
-    // deposit into escrow
+  // withdraw from vault
   const withdrawTx = {
     TransactionType: "VaultWithdraw",
     Account: sourceWallet.address,
@@ -30,7 +30,7 @@ async function test(testContext) {
     Amount : "123",
     ComputationAllowance: 1000000,
   }
-  const withdrawResponse = await submit(withdrawTx, sourceWallet, true)
+  const withdrawResponse = await submit(withdrawTx, sourceWallet)
 
   if (withdrawResponse.result.meta.TransactionResult !== "tesSUCCESS") {
     console.error(
