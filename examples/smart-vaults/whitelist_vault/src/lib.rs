@@ -3,8 +3,8 @@
 #[cfg(not(target_arch = "wasm32"))]
 extern crate std;
 
-use xrpl_wasm_stdlib::core::current_tx::escrow_finish;
 use xrpl_wasm_stdlib::core::current_tx::traits::TransactionCommonFields;
+use xrpl_wasm_stdlib::core::current_tx::vault_withdraw;
 use xrpl_wasm_stdlib::host::trace::trace_num;
 use xrpl_wasm_stdlib::host::{Result::Err, Result::Ok};
 use xrpl_wasm_stdlib::r_address;
@@ -19,8 +19,8 @@ pub extern "C" fn on_deposit() -> i32 {
 
 #[unsafe(no_mangle)]
 pub extern "C" fn on_withdraw() -> i32 {
-    let escrow_finish = escrow_finish::get_current_escrow_finish();
-    let tx_account = match escrow_finish.get_account() {
+    let vault_withdraw = vault_withdraw::get_current_vault_withdraw();
+    let tx_account = match vault_withdraw.get_account() {
         Ok(v) => v,
         Err(e) => {
             let _ = trace_num("Error in Notary contract", e.code() as i64);

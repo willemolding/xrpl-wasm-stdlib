@@ -60,6 +60,8 @@
 
 pub mod escrow_finish;
 pub mod traits;
+pub mod vault_deposit;
+pub mod vault_withdraw;
 
 use crate::host::error_codes::{
     match_result_code_with_expected_bytes, match_result_code_with_expected_bytes_optional,

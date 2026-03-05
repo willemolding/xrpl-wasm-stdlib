@@ -414,6 +414,48 @@ pub trait EscrowFinishFields: TransactionCommonFields {
     }
 }
 
+/// Trait providing access to fields specific to VaultWithdraw transactions.
+///
+/// This trait extends `TransactionCommonFields` with methods for retrieving fields that are
+/// unique to VaultWithdraw transactions.
+///
+/// ## Implementation Requirements
+///
+/// Types implementing this trait should:
+/// - Also implement `TransactionCommonFields` for access to common transaction fields
+/// - Only be used in the context of processing VaultWithdraw transactions
+/// - Ensure proper error handling when accessing conditional fields
+pub trait VaultWithdrawFields: TransactionCommonFields {
+    fn get_amount(&self) -> Result<Amount> {
+        get_field(sfield::Amount)
+    }
+
+    fn get_destination(&self) -> Result<AccountID> {
+        get_field(sfield::Destination)
+    }
+
+    fn get_destination_tag(&self) -> Result<Option<u32>> {
+        get_field_optional(sfield::DestinationTag)
+    }
+}
+
+/// Trait providing access to fields specific to VaultDeposit transactions.
+///
+/// This trait extends `TransactionCommonFields` with methods for retrieving fields that are
+/// unique to VaultDeposit transactions.
+///
+/// ## Implementation Requirements
+///
+/// Types implementing this trait should:
+/// - Also implement `TransactionCommonFields` for access to common transaction fields
+/// - Only be used in the context of processing VaultDeposit transactions
+/// - Ensure proper error handling when accessing conditional fields
+pub trait VaultDepositFields: TransactionCommonFields {
+    fn get_amount(&self) -> Result<Amount> {
+        get_field(sfield::Amount)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
