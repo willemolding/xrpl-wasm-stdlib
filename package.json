@@ -6,7 +6,6 @@
     "test": "./scripts/run-tests.sh"
   },
   "dependencies": {
-    "ripple-binary-codec": "^2.7.0-smartescrow.0",
-    "xrpl": "file:../xrpl.js/packages/xrpl"
+    "xrpl": "npm:@willem-xrpl/xrpl@^4.6.0-smartvaults.1"
   }
 }
